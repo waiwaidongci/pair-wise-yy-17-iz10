@@ -26,17 +26,25 @@
       "surveyor": "沈宁",
       "date": "2026-06-18",
       "temperature": 17.4,
-      "humidity": 88,
+      "humidity": 84,
       "co2": 920,
       "dripRate": 12,
       "disturbance": "栏杆外侧有触碰痕迹",
       "photoUrl": "",
       "status": "异常待复查",
-      "reviewNote": "",
+      "reviewCount": 0,
+      "reviews": [],
+      "baselineSnapshot": { "baselineTemp": 16.2, "baselineHumidity": 92, "baselineCo2": 680 },
+      "initialBreaches": [
+        { "metric": "humidity", "label": "湿度", "unit": "%", "delta": -8, "limit": 6, "baseline": 92, "value": 84 },
+        { "metric": "co2", "label": "CO2", "unit": "ppm", "delta": 240, "limit": 150, "baseline": 680, "value": 920 }
+      ],
+      "closeReason": "",
+      "note": "",
       "createdAt": "2026-06-18T10:00:00.000Z",
       "updatedAt": "2026-06-18T10:00:00.000Z",
       "history": [
-        { "at": "2026-06-18T10:00:00.000Z", "action": "创建", "note": "CO2升高并有干扰痕迹" }
+        { "at": "2026-06-18T10:00:00.000Z", "action": "登记巡测", "note": "读数越限（湿度偏差-8%、CO2偏差+240ppm），生成待复查；基准 温度16.2℃/湿度92%/CO2 680ppm" }
       ]
     }
   ]

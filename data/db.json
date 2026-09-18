@@ -12,10 +12,28 @@
       "baselineHumidity": 92,
       "baselineCo2": 680,
       "note": "游客步道上方，滴水频率稳定",
-      "createdAt": "2026-06-14T08:00:00.000Z",
-      "updatedAt": "2026-06-14T08:00:00.000Z",
+      "createdAt": "2026-06-01T08:00:00.000Z",
+      "updatedAt": "2026-06-01T08:00:00.000Z",
       "history": [
-        { "at": "2026-06-14T08:00:00.000Z", "action": "创建", "note": "样点建档" }
+        { "at": "2026-06-01T08:00:00.000Z", "action": "创建", "note": "样点建档" }
+      ]
+    },
+    {
+      "id": "site-seed-2",
+      "cave": "南麓一号洞",
+      "zone": "石林区",
+      "pointCode": "S-03",
+      "route": "南线巡测",
+      "sensitivity": "中",
+      "protectedStatus": "常规观察",
+      "baselineTemp": 15.8,
+      "baselineHumidity": 90,
+      "baselineCo2": 520,
+      "note": "石笋连片，雨季注意CO2蓄积",
+      "createdAt": "2026-05-20T08:00:00.000Z",
+      "updatedAt": "2026-05-20T08:00:00.000Z",
+      "history": [
+        { "at": "2026-05-20T08:00:00.000Z", "action": "创建", "note": "样点建档" }
       ]
     }
   ],
@@ -32,11 +50,136 @@
       "disturbance": "栏杆外侧有触碰痕迹",
       "photoUrl": "",
       "status": "异常待复查",
-      "reviewNote": "",
+      "reviewCount": 0,
+      "judgement": {
+        "at": "2026-06-18T10:00:00.000Z",
+        "reason": "巡测登记",
+        "source": "initial",
+        "baseline": { "temp": 16.2, "humidity": 92, "co2": 680 },
+        "items": [
+          { "key": "temperature", "label": "温度", "reading": 17.4, "baseline": 16.2, "delta": 1.2, "unit": "℃", "deltaUnit": "℃", "diffLabel": "温差", "limit": 1.5, "exceeded": false },
+          { "key": "humidity", "label": "湿度", "reading": 88, "baseline": 92, "delta": -4, "unit": "%", "deltaUnit": "个百分点", "diffLabel": "湿度差", "limit": 6, "exceeded": false },
+          { "key": "co2", "label": "CO2", "reading": 920, "baseline": 680, "delta": 240, "unit": "ppm", "deltaUnit": "ppm", "diffLabel": "CO2增量", "limit": 150, "exceeded": true }
+        ]
+      },
       "createdAt": "2026-06-18T10:00:00.000Z",
       "updatedAt": "2026-06-18T10:00:00.000Z",
       "history": [
-        { "at": "2026-06-18T10:00:00.000Z", "action": "创建", "note": "CO2升高并有干扰痕迹" }
+        { "at": "2026-06-18T10:00:00.000Z", "action": "巡测登记", "note": "CO2增量+240ppm超阈，生成异常待复查，复查前不得标记正常。" }
+      ]
+    },
+    {
+      "id": "survey-seed-2",
+      "siteId": "site-seed-1",
+      "surveyor": "何岚",
+      "date": "2026-06-10",
+      "temperature": 17,
+      "humidity": 90,
+      "co2": 640,
+      "dripRate": 11,
+      "disturbance": "",
+      "photoUrl": "",
+      "status": "正常",
+      "reviewCount": 0,
+      "judgement": {
+        "at": "2026-06-10T09:30:00.000Z",
+        "reason": "巡测登记",
+        "source": "initial",
+        "baseline": { "temp": 16.2, "humidity": 92, "co2": 680 },
+        "items": [
+          { "key": "temperature", "label": "温度", "reading": 17, "baseline": 16.2, "delta": 0.8, "unit": "℃", "deltaUnit": "℃", "diffLabel": "温差", "limit": 1.5, "exceeded": false },
+          { "key": "humidity", "label": "湿度", "reading": 90, "baseline": 92, "delta": -2, "unit": "%", "deltaUnit": "个百分点", "diffLabel": "湿度差", "limit": 6, "exceeded": false },
+          { "key": "co2", "label": "CO2", "reading": 640, "baseline": 680, "delta": -40, "unit": "ppm", "deltaUnit": "ppm", "diffLabel": "CO2增量", "limit": 150, "exceeded": false }
+        ]
+      },
+      "createdAt": "2026-06-10T09:30:00.000Z",
+      "updatedAt": "2026-06-10T09:30:00.000Z",
+      "history": [
+        { "at": "2026-06-10T09:30:00.000Z", "action": "巡测登记", "note": "三项均在允许范围内，判为正常。" }
+      ]
+    },
+    {
+      "id": "survey-seed-3",
+      "siteId": "site-seed-2",
+      "surveyor": "何岚",
+      "date": "2026-06-12",
+      "temperature": 18.4,
+      "humidity": 81,
+      "co2": 780,
+      "dripRate": 6,
+      "disturbance": "洞口风井堵塞，通风减弱",
+      "photoUrl": "",
+      "status": "已关闭",
+      "reviewCount": 2,
+      "closedAt": "2026-06-15T11:00:00.000Z",
+      "closeReason": "第2次复查：三项均回到允许范围内（温差≤1.5℃、湿度差≤6个百分点、CO2增量≤150ppm），异常关闭。",
+      "judgement": {
+        "at": "2026-06-15T11:00:00.000Z",
+        "reason": "第2次复查",
+        "source": "review-2",
+        "baseline": { "temp": 15.8, "humidity": 90, "co2": 520 },
+        "items": [
+          { "key": "temperature", "label": "温度", "reading": 16.2, "baseline": 15.8, "delta": 0.4, "unit": "℃", "deltaUnit": "℃", "diffLabel": "温差", "limit": 1.5, "exceeded": false },
+          { "key": "humidity", "label": "湿度", "reading": 90, "baseline": 90, "delta": 0, "unit": "%", "deltaUnit": "个百分点", "diffLabel": "湿度差", "limit": 6, "exceeded": false },
+          { "key": "co2", "label": "CO2", "reading": 620, "baseline": 520, "delta": 100, "unit": "ppm", "deltaUnit": "ppm", "diffLabel": "CO2增量", "limit": 150, "exceeded": false }
+        ]
+      },
+      "createdAt": "2026-06-12T09:00:00.000Z",
+      "updatedAt": "2026-06-15T11:00:00.000Z",
+      "history": [
+        { "at": "2026-06-15T11:00:00.000Z", "action": "复查关闭", "note": "第2次复查：三项均回到允许范围内，异常关闭。 现场结论：风井疏通后通风恢复，指标回落。" },
+        { "at": "2026-06-13T10:00:00.000Z", "action": "复查未恢复", "note": "第1次复查仍有 2 项超阈：温度17.5℃温差+1.7℃、CO2 700ppm增量+180ppm，累计复查 1 次，继续待查。" },
+        { "at": "2026-06-12T09:00:00.000Z", "action": "巡测登记", "note": "温差+2.6℃、湿度差-9个百分点、CO2增量+260ppm均超阈，生成异常待复查。" }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review-seed-1",
+      "surveyId": "survey-seed-3",
+      "siteId": "site-seed-2",
+      "reviewNo": 1,
+      "date": "2026-06-13",
+      "reviewer": "沈宁",
+      "temperature": 17.5,
+      "humidity": 84,
+      "co2": 700,
+      "conclusion": "临时开启备用通风，继续观察",
+      "result": "继续待查",
+      "exceededKeys": ["temperature", "co2"],
+      "baseline": { "temp": 15.8, "humidity": 90, "co2": 520 },
+      "items": [
+        { "key": "temperature", "label": "温度", "reading": 17.5, "baseline": 15.8, "delta": 1.7, "unit": "℃", "deltaUnit": "℃", "diffLabel": "温差", "limit": 1.5, "exceeded": true },
+        { "key": "humidity", "label": "湿度", "reading": 84, "baseline": 90, "delta": -6, "unit": "%", "deltaUnit": "个百分点", "diffLabel": "湿度差", "limit": 6, "exceeded": false },
+        { "key": "co2", "label": "CO2", "reading": 700, "baseline": 520, "delta": 180, "unit": "ppm", "deltaUnit": "ppm", "diffLabel": "CO2增量", "limit": 150, "exceeded": true }
+      ],
+      "createdAt": "2026-06-13T10:00:00.000Z",
+      "history": [
+        { "at": "2026-06-13T10:00:00.000Z", "action": "复查未恢复", "note": "第1次复查仍有 2 项超阈，累计复查 1 次，继续待查。" }
+      ]
+    },
+    {
+      "id": "review-seed-2",
+      "surveyId": "survey-seed-3",
+      "siteId": "site-seed-2",
+      "reviewNo": 2,
+      "date": "2026-06-15",
+      "reviewer": "何岚",
+      "temperature": 16.2,
+      "humidity": 90,
+      "co2": 620,
+      "conclusion": "风井疏通后通风恢复，指标回落",
+      "result": "关闭异常",
+      "exceededKeys": [],
+      "baseline": { "temp": 15.8, "humidity": 90, "co2": 520 },
+      "items": [
+        { "key": "temperature", "label": "温度", "reading": 16.2, "baseline": 15.8, "delta": 0.4, "unit": "℃", "deltaUnit": "℃", "diffLabel": "温差", "limit": 1.5, "exceeded": false },
+        { "key": "humidity", "label": "湿度", "reading": 90, "baseline": 90, "delta": 0, "unit": "%", "deltaUnit": "个百分点", "diffLabel": "湿度差", "limit": 6, "exceeded": false },
+        { "key": "co2", "label": "CO2", "reading": 620, "baseline": 520, "delta": 100, "unit": "ppm", "deltaUnit": "ppm", "diffLabel": "CO2增量", "limit": 150, "exceeded": false }
+      ],
+      "createdAt": "2026-06-15T11:00:00.000Z",
+      "history": [
+        { "at": "2026-06-15T11:00:00.000Z", "action": "复查关闭", "note": "第2次复查三项均回到允许范围内，异常关闭。" }
       ]
     }
   ]

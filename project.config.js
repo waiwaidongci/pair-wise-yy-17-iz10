@@ -1,18 +1,24 @@
 module.exports = {
   port: 3912,
   title: '钟乳石洞穴微环境巡测',
-  lede: '围绕洞穴、分区、样点和巡测路线记录微环境数据，发现异常后生成复查闭环。',
+  lede: '围绕洞穴样点登记巡测读数，自动对照样点基准判定；超阈即进入复查闭环，三项全部回到范围内才关闭。调整基准会使未关闭异常的旧判定失效并按新基准重核。',
+  thresholds: {
+    temp: 1.5,
+    humidity: 6,
+    co2: 150
+  },
   tones: {
     '常规观察': 'ok',
     '正常': 'ok',
-    '已复查': 'ok',
+    '已关闭': 'ok',
     '重点保护': 'warn',
     '异常待复查': 'bad',
     '暂停开放': 'bad'
   },
   collections: {
     sites: { label: '样点档案' },
-    surveys: { label: '巡测记录' }
+    surveys: { label: '巡测记录' },
+    reviews: { label: '复查记录' }
   },
   stats: [
     { label: '样点', collection: 'sites' },
@@ -23,10 +29,10 @@ module.exports = {
   views: [
     {
       id: 'dashboard',
-      label: '趋势看板',
+      label: '复查看板',
       type: 'dashboard',
-      focusTitle: '异常与复查',
-      focus: { collection: 'surveys', field: 'status', values: ['异常待复查'], limit: 8 }
+      focusTitle: '待复查异常',
+      focus: { collection: 'surveys', field: 'status', values: ['异常待复查'], limit: 10 }
     },
     {
       id: 'sites',
@@ -36,16 +42,10 @@ module.exports = {
       listTitle: '样点列表',
       submitLabel: '保存样点',
       searchPlaceholder: '搜索洞穴、分区、样点、路线',
-      searchFields: ['cave', 'zone', 'pointCode', 'route'],
+      searchFields: ['cave', 'zone', 'pointCode', 'route', 'note'],
       statusField: 'protectedStatus',
       statusOptions: ['常规观察', '重点保护', '暂停开放'],
       titleFields: ['pointCode', 'zone'],
-      summaryFields: ['note'],
-      detailFields: [
-        { label: '洞穴', name: 'cave' },
-        { label: '巡测路线', name: 'route' },
-        { label: '敏感等级', name: 'sensitivity' }
-      ],
       fields: [
         { label: '洞穴', name: 'cave', required: true },
         { label: '分区', name: 'zone', required: true },
@@ -53,59 +53,44 @@ module.exports = {
         { label: '巡测路线', name: 'route', required: true },
         { label: '敏感等级', name: 'sensitivity', type: 'select', options: ['低', '中', '高'] },
         { label: '保护状态', name: 'protectedStatus', type: 'select', options: ['常规观察', '重点保护', '暂停开放'] },
-        { label: '基准温度', name: 'baselineTemp', type: 'number', required: true },
-        { label: '基准湿度', name: 'baselineHumidity', type: 'number', required: true },
-        { label: '基准CO2', name: 'baselineCo2', type: 'number', required: true },
+        { label: '基准温度(℃)', name: 'baselineTemp', type: 'number', required: true, step: 0.1 },
+        { label: '基准湿度(%)', name: 'baselineHumidity', type: 'number', required: true, step: 1 },
+        { label: '基准CO2(ppm)', name: 'baselineCo2', type: 'number', required: true, step: 1 },
         { label: '备注', name: 'note', type: 'textarea', wide: true }
       ]
     },
     {
       id: 'surveys',
-      label: '巡测记录',
+      label: '巡测登记',
       collection: 'surveys',
       formTitle: '登记巡测',
       listTitle: '巡测历史',
       submitLabel: '保存巡测',
-      searchPlaceholder: '搜索人员、干扰痕迹、照片',
-      searchFields: ['surveyor', 'disturbance', 'photoUrl'],
+      searchPlaceholder: '搜索人员、日期、干扰痕迹、样点',
+      searchFields: ['surveyor', 'date', 'disturbance'],
       statusField: 'status',
-      statusOptions: ['正常', '异常待复查', '已复查'],
+      statusOptions: ['正常', '异常待复查', '已关闭'],
       titleFields: ['surveyor', 'date'],
-      relation: { collection: 'sites', localKey: 'siteId', labelFields: ['cave', 'zone', 'pointCode'] },
-      summaryFields: ['disturbance', 'reviewNote'],
-      detailFields: [
-        { label: '温度', name: 'temperature' },
-        { label: '湿度', name: 'humidity' },
-        { label: 'CO2', name: 'co2' }
-      ],
-      defaults: { status: '正常', reviewNote: '' },
       fields: [
         { label: '样点', name: 'siteId', type: 'relation', collection: 'sites', labelFields: ['cave', 'zone', 'pointCode'], required: true, wide: true },
         { label: '巡测人员', name: 'surveyor', required: true },
         { label: '日期', name: 'date', type: 'date', required: true },
-        { label: '温度', name: 'temperature', type: 'number', required: true },
-        { label: '湿度', name: 'humidity', type: 'number', required: true },
-        { label: 'CO2', name: 'co2', type: 'number', required: true },
-        { label: '滴水频率', name: 'dripRate', type: 'number', required: true },
+        { label: '温度(℃)', name: 'temperature', type: 'number', step: 0.1, required: true },
+        { label: '湿度(%)', name: 'humidity', type: 'number', step: 1, required: true },
+        { label: 'CO2(ppm)', name: 'co2', type: 'number', step: 1, required: true },
+        { label: '滴水频率(次/分)', name: 'dripRate', type: 'number', step: 1, required: true },
         { label: '照片链接', name: 'photoUrl' },
         { label: '游客干扰痕迹', name: 'disturbance', type: 'textarea', wide: true }
       ]
-    }
-  ],
-  actions: [
-    { id: 'site-normal', label: '常规观察', collection: 'sites', patches: [{ field: 'protectedStatus', value: '常规观察' }] },
-    { id: 'site-focus', label: '重点保护', collection: 'sites', patches: [{ field: 'protectedStatus', value: '重点保护' }] },
-    { id: 'site-close', label: '暂停开放', collection: 'sites', danger: true, patches: [{ field: 'protectedStatus', value: '暂停开放' }] },
-    {
-      id: 'survey-alert',
-      label: '标记异常',
-      collection: 'surveys',
-      relation: { collection: 'sites', localKey: 'siteId' },
-      patches: [
-        { field: 'status', value: '异常待复查' },
-        { target: 'related', field: 'protectedStatus', value: '重点保护' }
-      ]
     },
-    { id: 'survey-review', label: '完成复查', collection: 'surveys', patches: [{ field: 'status', value: '已复查' }, { field: 'reviewNote', value: '异常已复核' }] }
+    {
+      id: 'reviews',
+      label: '异常与复查',
+      collection: 'surveys',
+      listTitle: '异常历史',
+      searchPlaceholder: '搜索样点、人员、日期、结论',
+      statusField: 'status',
+      statusOptions: ['异常待复查', '已关闭', '正常']
+    }
   ]
 };
